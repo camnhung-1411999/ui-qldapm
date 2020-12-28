@@ -1,4 +1,4 @@
-const URL = 'http://localhost:4000';
+const URL = 'https://api-qldapm.herokuapp.com';
 
 export const API = {
   // authentication
