@@ -18,21 +18,20 @@ import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import { useDispatch } from 'react-redux';
 import { fileAction } from '../../../redux/actions';
 import Slide from '@material-ui/core/Slide';
-import { transactionService } from '../../../api';
-
+import { transactionService} from '../../../api';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function File({ file }) {
     const dispatch = useDispatch();
-    
+
     const [open, setOpen] = React.useState(false);
     const [iopen, setIOpen] = React.useState(false);
+    const [sopen, setSOpen] = React.useState(false);
     const [idelete, setIDelete] = React.useState(false);
     const [receiver, setReceiver] = React.useState('');
     const [error, setError] = React.useState();
-
     const handleDelete = () => {
         dispatch(fileAction.deleteFile(file._id));
         setIDelete(false);
@@ -46,6 +45,10 @@ export default function File({ file }) {
         setOpen(true);
     };
 
+    const handleSign = async () => {
+        dispatch(fileAction.sign(file._id));
+        setSOpen(false);
+    }
     const handleSend = async () => {
         await transactionService.createTransaction({
             receiver,
@@ -60,6 +63,24 @@ export default function File({ file }) {
 
     };
 
+    const checkSign = () => {
+        const text = file.name?.split('.');
+        const res = text[text.length - 1];
+        if(res !== 'docx' && res !== 'doc') {
+            return (
+                <Button disabled color="primary">VIEWED</Button>
+            );
+        }
+        if (file.signed) {
+            
+            return (
+                <Button disabled color="primary">Signed</Button>
+            );
+        }
+        return (
+            <Button color="primary" onClick={()=>{setSOpen(true)}}>Sign</Button>
+        );
+    }
     return (
         <TableRow
             hover
@@ -75,13 +96,29 @@ export default function File({ file }) {
                 </div>
             </TableCell>
             <TableCell>
-                <Button color="primary">Sign</Button>
+            {checkSign()}
+
+            <Dialog open={sopen} onClose={() => { setSOpen(false) }} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="customized-dialog-title">SIGN TO FILE</DialogTitle>
+                    <DialogContent dividers>
+                        <DialogContentText>
+                            Are you sure sign this file?
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => { setSOpen(false) }} color="primary">
+                            Cancel
+                         </Button>
+                        <Button onClick={handleSign} color="primary">
+                            Sign
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </TableCell>
             <TableCell>
                 <Button variant="outlined" color="primary" onClick={handleDownload}>Download</Button>
 
             </TableCell>
-
             <TableCell>
                 <Button variant="contained" color="primary" onClick={handleClickOpen}>
                     Sent <SendRoundedIcon />
@@ -125,7 +162,7 @@ export default function File({ file }) {
 
                 >
                     <DialogContent style={{ width: '500px' }}>
-                        FIFE SENT!
+                        SUCESSFULLY!
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => { setIOpen(false) }} color="primary">

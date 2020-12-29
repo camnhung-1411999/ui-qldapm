@@ -5,7 +5,8 @@ import { alertActions } from 'src/redux/actions';
 export const fileAction = {
     upload,
     getListFile,
-    deleteFile
+    deleteFile,
+    sign,
 };
 
 function upload(data) {
@@ -59,6 +60,27 @@ function deleteFile(_id) {
     };
 
     function request(id) { return { type: fileConstant.UPLOAD_REQUEST, id } }
+    function success(file) { return { type: fileConstant.UPLOAD_SUCCESS, file } }
+    function failure(error) { return { type: fileConstant.UPLOAD_FAILURE, error } }
+}
+
+function sign(id){
+    return dispatch => {
+        dispatch(request(id));
+
+        fileService.sign(id)
+            .then(
+                file => { 
+                    dispatch(success(file));
+                },
+                error => {
+                    dispatch(failure(error));
+                    dispatch(alertActions.error(error));
+                }
+            );
+    };
+
+    function request(_id) { return { type: fileConstant.UPLOAD_REQUEST, _id } }
     function success(file) { return { type: fileConstant.UPLOAD_SUCCESS, file } }
     function failure(error) { return { type: fileConstant.UPLOAD_FAILURE, error } }
 }

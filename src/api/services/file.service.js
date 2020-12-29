@@ -21,9 +21,14 @@ const deleteFile = (id) => {
     })
 }
 
-
+const sign = (id) => {
+    return axios.put(API.FILE +`/${id}`, null, {
+        headers: authHeader(),
+    })
+}
 export const fileService = {
     uploadFile,
     getFiles,
     deleteFile,
+    sign
 }
