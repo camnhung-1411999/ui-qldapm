@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginView = () => {
-  // const classes = useStyles();
-  // const dispatch = useDispatch();
+  const classes = useStyles();
+  const dispatch = useDispatch();
   return (
     <Page
       className={classes.root}
