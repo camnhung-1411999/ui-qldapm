@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginView = () => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
+  // const classes = useStyles();
+  // const dispatch = useDispatch();
   return (
     <Page
       className={classes.root}
@@ -41,8 +41,8 @@ const LoginView = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: 'quynhlam1411999@gmail.com',
-              password: 'nhung123'
+              email: '',
+              password: ''
             }}
             validationSchema={Yup.object().shape({
               email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
