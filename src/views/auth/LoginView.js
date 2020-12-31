@@ -53,7 +53,7 @@ const LoginView = () => {
                 dispatch(userActions.login());
               }).catch((error) =>{
                 setSubmitting(false);
-                if(error.response.status === 404){
+                if(error.response?.status === 404){
                   setStatus('Email not found');
                 } else {
                   setStatus('Password not match')

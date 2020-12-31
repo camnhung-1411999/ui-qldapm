@@ -25,11 +25,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function File({ file }) {
     const dispatch = useDispatch();
-
     const [open, setOpen] = React.useState(false);
     const [iopen, setIOpen] = React.useState(false);
     const [sopen, setSOpen] = React.useState(false);
     const [idelete, setIDelete] = React.useState(false);
+    const [alert, setAlert] = React.useState(false);
     const [receiver, setReceiver] = React.useState('');
     const [error, setError] = React.useState();
     const handleDelete = () => {
@@ -118,6 +118,24 @@ export default function File({ file }) {
             <TableCell>
                 <Button variant="outlined" color="primary" onClick={handleDownload}>Download</Button>
 
+                <Dialog
+                    open={alert}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={() => { setAlert(false) }}
+                    aria-labelledby="alert-dialog-slide-title"
+                    aria-describedby="alert-dialog-slide-description"
+
+                >
+                    <DialogContent style={{ width: '500px' }}>
+                        Failure!!! Can not sign to file. Maybe you still not create your signature in account.
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => { setAlert(false) }} color="primary">
+                            OK
+                       </Button>
+                    </DialogActions>
+                </Dialog>
             </TableCell>
             <TableCell>
                 <Button variant="contained" color="primary" onClick={handleClickOpen}>

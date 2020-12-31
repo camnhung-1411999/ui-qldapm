@@ -7,7 +7,10 @@ import {
 import Page from '../../components/Page';
 import Profile from './components/Profile';
 import ProfileDetails from './components/ProfileDetails';
+import { positions, Provider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
 import Signature from './components/Signature';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -16,6 +19,15 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(3)
   }
 }));
+
+const options = {
+  timeout: 3000,
+  position: positions.BOTTOM_CENTER,
+  transition: 'scale',
+  containerStyle: {
+    zIndex: 200
+  }
+};
 
 const Account = () => {
   const classes = useStyles();
@@ -39,14 +51,16 @@ const Account = () => {
             <Profile />
             <Signature/>
           </Grid>
-          <Grid
-            item
-            lg={8}
-            md={6}
-            xs={12}
-          >
-            <ProfileDetails />
-          </Grid>
+          <Provider template={AlertTemplate} {...options}>
+            <Grid
+              item
+              lg={8}
+              md={6}
+              xs={12}
+            >
+              <ProfileDetails />
+            </Grid>
+          </Provider>
         </Grid>
       </Container>
     </Page>

@@ -174,7 +174,6 @@ const Dashboard = () => {
 
           <Grid
             item
-            lg={8}
             md={12}
             xl={12}
             xs={12}

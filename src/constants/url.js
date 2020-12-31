@@ -1,8 +1,8 @@
-const URL = 'https://api-qldapm.herokuapp.com';
+const URL = 'http://localhost:4000';
 
 export const API = {
   // authentication
-  USERS: `${URL}/users/`,
+  USERS: `${URL}/users`,
 
   TRANSACTION: `${URL}/transactions`,
   // refresh token

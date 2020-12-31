@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {userService} from '../../../api'
+import React, { useEffect, useState } from 'react';
+import { userService } from '../../../api'
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { useAlert } from "react-alert";
 import {
   Box,
   Button,
@@ -14,6 +15,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
+
 const useStyles = makeStyles(() => ({
   root: {}
 }));
@@ -22,11 +24,13 @@ const ProfileDetails = ({ className, ...rest }) => {
   const [user, setUser] = useState({
     avatar: '/static/images/avatars/avatar_6.png',
     email: '',
-    name: ''
+    name: '',
+    phone: '',
+    address: ''
   })
   const iuser = useSelector(state=> state.users.item);
   useEffect(() => {
- 
+
     const getUser = async () => {
       await userService.me().then((res) => {
         setUser({
@@ -42,20 +46,18 @@ const ProfileDetails = ({ className, ...rest }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [iuser]);
   const classes = useStyles();
-  const [setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
-  });
+  const alert = useAlert();
 
   const handleChange = (event) => {
-    setValues({
+    setUser({
       ...user,
       [event.target.name]: event.target.value
     });
+  };
+
+  const updateProfile = () => {
+    userService.update(user);
+    alert.success("Update successful");
   };
 
   return (
@@ -165,6 +167,7 @@ const ProfileDetails = ({ className, ...rest }) => {
           <Button
             color="primary"
             variant="contained"
+            onClick={updateProfile}
           >
             Save details
           </Button>
