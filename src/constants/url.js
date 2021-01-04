@@ -1,4 +1,4 @@
-const URL = 'http://localhost:4000';
+const URL = 'https://signature-nhom5.vercel.app';
 
 export const API = {
   // authentication
